@@ -10,9 +10,27 @@ CKnight = Symbol("C is a Knight")
 CKnave = Symbol("C is a Knave")
 
 ALied = Symbol("A Lied")
+BLied = Symbol("B Lied")
+
+ASaysTrue = Symbol("A says True")
+BSaysTrue = Symbol("B says True")
+
+ASaysNothing = Symbol("A says nothing")
+BSaysNothing = Symbol("B says nothing")
+
 
 ASaysIsKnightandKnave = ALied
+BSaysIsKnightandKnave = BLied
 
+ASaysBothKnave = ALied
+BSaysBothKnave = BLied
+
+ASaysBothKinght = Symbol("A says both are Kinght")
+BSaysBothKinght = Symbol("B says both are Kinght")
+
+ASaysBothSame = Symbol("A says both are the same")
+
+BSaysBothDifferent = Symbol("B says both are different")
 
 
 # Puzzle 0
@@ -35,7 +53,7 @@ knowledge0 = And(
 # A says "We are both knaves."
 # B says nothing.
 knowledge1 = And(
-  # Each person is either a knight or a knave.
+    # Each person is either a knight or a knave.
     Or(AKnight, AKnave),
     Or(BKnight, BKnave),
 
@@ -47,7 +65,23 @@ knowledge1 = And(
     Implication(AKnave, Not(AKnight)),
     Implication(BKnave, Not(BKnight)),
 
-    #
+    #If someone says both are Knave, then he is lyting
+    Implication(ASaysBothKnave, ALied),
+    Implication(BSaysBothKnave, BLied),
+
+    #If someone is lying, then he is a Knave
+    Implication(ALied, AKnave),
+    Implication(BLied, BKnave),
+
+    #If someone says a truth, then he is a Knight
+    Implication(ASaysTrue, AKnight),
+    Implication(BSaysTrue, BKnight),
+
+    #If one says another one is they are both knaves
+    Implication(And(ASaysBothKnave,BSaysNothing), BKnight),
+
+    ASaysBothKnave,
+    BSaysNothing
 
 )
 
@@ -57,7 +91,44 @@ knowledge1 = And(
 # B says "We are of different kinds."
 
 knowledge2 = And(
-  AKnave, BKnight
+
+    # Each person is either a knight or a knave.
+    Or(AKnight, AKnave),
+    Or(BKnight, BKnave),
+
+    # If a person is a Knight, it is not a knave \
+    Implication(AKnight, Not(AKnave)),
+    Implication(BKnight, Not(BKnave)),
+
+    # If a person is a Knave, it is not a knight 
+    Implication(AKnave, Not(AKnight)),
+    Implication(BKnave, Not(BKnight)),
+
+    #If someone says both are Knave, then he is lyting
+    Implication(ASaysBothKnave, ALied),
+    Implication(BSaysBothKnave, BLied),
+
+    #If someone is lying, then he is a Knave
+    Implication(ALied, AKnave),
+    Implication(BLied, BKnave),
+
+    #If someone says a truth, then he is a Knight
+    Implication(ASaysTrue, AKnight),
+    Implication(BSaysTrue, BKnight),
+
+    #If someone says It is when the other lied, then he is a Knight
+    Implication(And(BSaysNothing,ASaysIsKnightandKnave), BKnight),
+
+    Implication(ASaysBothSame, Or(
+        Or(AKnight,BKnight), Or(ALied)
+        ),),
+
+    Implication(BSaysBothDifferent,Not(BKnave, AKnight)),
+
+
+    ASaysBothSame,
+    BSaysBothDifferent,
+    
 )
 
 # Puzzle 3
