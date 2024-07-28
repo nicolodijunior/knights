@@ -32,6 +32,9 @@ ASaysBothSame = Symbol("A says both are the same")
 
 BSaysBothDifferent = Symbol("B says both are different")
 
+ASaysIsknightOrKnave = Symbol("Iam a Knight or a Knave")
+
+
 
 # Puzzle 0
 # A says "I am both a knight and a knave."
@@ -123,8 +126,11 @@ knowledge2 = And(
         Or(AKnight,BKnight), Or(ALied)
         ),),
 
-    Implication(BSaysBothDifferent,Not(BKnave, AKnight)),
+    Implication(BSaysBothDifferent, Not(And(BKnave, AKnight))),
+    Implication(And(ASaysBothSame, BSaysBothDifferent), Or(ALied, BLied)),
 
+    Implication(And(BSaysBothDifferent, BKnight), AKnave),
+    Implication(And(ASaysBothSame, AKnave), BKnave),
 
     ASaysBothSame,
     BSaysBothDifferent,
@@ -137,7 +143,6 @@ knowledge2 = And(
 # B says "C is a knave."
 # C says "A is a knight."
 knowledge3 = And(
-    
 )
 
 
