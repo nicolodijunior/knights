@@ -40,6 +40,8 @@ BSaysCIsKnave = Symbol("B says C is a Knave")
 
 CSaysAIsKnight = Symbol("C says A is a Knight")
 
+ASaysAisknightOrKnave = Symbol("A says I am a Knight or a Knave")
+
 # A says either "I am a knight." or "I am a knave.", but you don't know which.
 # B says "A said 'I am a knave'."
 # B says "C is a knave."
@@ -156,6 +158,8 @@ knowledge2 = And(
 
 knowledge3 = And(
 
+    Implication(ASaysAisknightOrKnave, AKnight),
+
     # BSaysASaidBIsKnave - B says "C is a knave."  
 
     Implication(And(BSaysASaidBIsKnave, BKnight), AKnave),    
@@ -208,6 +212,7 @@ knowledge3 = And(
     BSaysASaidBIsKnave,
     BSaysCIsKnave,
     CSaysAIsKnight,
+    ASaysAisknightOrKnave,
 
 )
 
