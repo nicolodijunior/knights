@@ -106,47 +106,17 @@ knowledge1 = And(
 # B says "We are of different kinds."
 
 knowledge2 = And(
-
-    # Each person is either a knight or a knave.
     Or(AKnight, AKnave),
     Or(BKnight, BKnave),
+    Or(CKnight, CKnave),
+    Not(And(AKnight, AKnave)),
+    Not(And(BKnight, BKnave)),
+    Not(And(CKnight, CKnave)),
 
-    # If a person is a Knight, it is not a knave \
-    Implication(AKnight, Not(AKnave)),
-    Implication(BKnight, Not(BKnave)),
-
-    # If a person is a Knave, it is not a knight 
-    Implication(AKnave, Not(AKnight)),
-    Implication(BKnave, Not(BKnight)),
-
-    #If someone says both are Knave, then he is lyting
-    Implication(ASaysBothKnave, ALied),
-    Implication(BSaysBothKnave, BLied),
-
-    #If someone is lying, then he is a Knave
-    Implication(ALied, AKnave),
-    Implication(BLied, BKnave),
-
-    #If someone says a truth, then he is a Knight
-    Implication(ASaysTrue, AKnight),
-    Implication(BSaysTrue, BKnight),
-
-    #If someone says It is when the other lied, then he is a Knight
-    Implication(And(BSaysNothing,ASaysIsKnightandKnave), BKnight),
-
-    Implication(ASaysBothSame, Or(
-        Or(AKnight,BKnight), Or(ALied)
-        ),),
-
-    Implication(BSaysBothDifferent, Not(And(BKnave, AKnight))),
-    Implication(And(ASaysBothSame, BSaysBothDifferent), Or(ALied, BLied)),
-
-    Implication(And(BSaysBothDifferent, BKnight), AKnave),
-    Implication(And(ASaysBothSame, AKnave), BKnave),
-
-    ASaysBothSame,
-    BSaysBothDifferent,
-    
+    Implication(AKnight, Or(And(AKnight, BKnight), And(AKnave, BKnave))),
+    Implication(AKnave, Or(And(AKnight, BKnave), And(AKnave, BKnight))),
+    Implication(BKnight, Or(And(AKnight, BKnave), And(AKnave, BKnight))),
+    Implication(BKnave, Not(Or(And(AKnight, BKnave), And(AKnave, BKnight)))),  
 )
 
 # Puzzle 3
