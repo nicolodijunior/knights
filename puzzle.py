@@ -103,7 +103,7 @@ knowledge1 = And(
 
 # Puzzle 2
 # A says "We are the same kind."
-# B says "We are of different kinds."
+# B says "We are of different kinds."s
 
 knowledge2 = And(
     Or(AKnight, AKnave),
